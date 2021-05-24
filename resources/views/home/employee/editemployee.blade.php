@@ -104,7 +104,7 @@
                         </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-info">Update Employee</button>
+                    <button type="submit" class="btn">Update Employee</button>
                   </form>
             </div>
           </div>

@@ -42,8 +42,8 @@
                     <div class="form-group">
                         <label>Month:</label>
                         <select class="form-control" name='month_id'>
-                            <option value="<?php echo date('m'); ?>" selected><?php echo date('m'); ?></option>
-                            @for ($i = 01; $i < 13; $i++)
+                            <option value="<?php echo date('m')*1; ?>" selected><?php echo date('m')*1; ?></option>
+                            @for ($i = 1; $i < 13; $i++)
                             @if( date('m') == $i)
                             @continue
                             @endif
@@ -69,7 +69,7 @@
                     </div>
                     </div>
                     </div>
-                    <button class="btn btn-info">Create Salary</button>
+                    <button class="btn">Create Salary</button>
                 </form>
             </div>
           </div>

@@ -4,8 +4,16 @@ html{
 body {
     height: 100%;
 
-    background-color: #FFE53B;
-    background-image: linear-gradient(147deg, #FFE53B 0%, #FF2525 100%);
+    background-color: #d3d3d3;
+    /* background-image: linear-gradient(147deg, #FFE53B 0%, #FF2525 100%); */
     background-repeat: no-repeat;
     background-attachment: fixed;
   }
+.display-4{
+    font-weight: bold;
+    color: black !important;
+}
+.lead{
+    font-weight: bold;
+    color: black !important;
+}

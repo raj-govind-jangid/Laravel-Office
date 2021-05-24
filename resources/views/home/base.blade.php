@@ -65,8 +65,9 @@
                   <span>Online</span>
                 </span>
               </div>
+              <span class="user-name" style="color: #6c7b88;"><strong>{{Session::get('user')['user_email']}}</strong></span>
             </div>
-            <!-- sidebar-header  -->
+            <!-- sidebar-header
             <div class="sidebar-search">
               <div>
                 <div class="input-group">
@@ -79,6 +80,7 @@
                 </div>
               </div>
             </div>
+              -->
             <!-- sidebar-search  -->
             <div class="sidebar-menu">
               <ul>
@@ -180,7 +182,7 @@
                       <span>Logout</span>
                     </a>
                   </li>
-                @if (session()->get('user')['user_type'] == "Superadmin")
+                @if(session()->get('user')['user_type'] == "Superadmin")
                 <li class="header-menu">
                   <span>Admin</span>
                 </li>
@@ -233,14 +235,35 @@
           </main>
         </div>
 </body>
-<script>
-    setTimeout(function() {
-    $("#idfail").fadeOut().empty();
-    }, 5000);
+<script type="text/javascript">
+    function inactivityTime(){
+        onlineuser();
+        function onlineuser(){
+            $.ajax({
+                url: '/onlineuser',
+                method: 'POST',
+                data: {
+                    _token:"{{ csrf_token() }}"
+                },
+                success: function(data){
+                },
+            })
+        }
+        setInterval(function(){
+            onlineuser();
+        }, 60000);
+        }
+
+    // run the function
+    inactivityTime();
 
     setTimeout(function() {
-    $("#idsuccess").fadeOut().empty();
-    }, 5000);
+    $("#idfail").fadeOut(7000);
+    });
+
+    setTimeout(function() {
+    $("#idsuccess").fadeOut(7000);
+    });
 
     $('#datepicker').datepicker({
         dateFormat: 'dd-mm-yy'
@@ -249,9 +272,11 @@
 </script>
 </html>
 <?php
+
 if(session()->get('fail')){
     Session::forget('fail');
 }
+
 elseif(session()->get('success')) {
     Session::forget('success');
 }

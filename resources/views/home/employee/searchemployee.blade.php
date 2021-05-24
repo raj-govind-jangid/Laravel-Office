@@ -54,17 +54,17 @@
             <div class="table-responsive">
                 <ul class="pagination">
                     @if($page >= 2)
-                    <li class="page-item"><a class="page-link" href="/employee/{{ $page-1 }}">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="/searchemployee/{{ $page-1 }}?employeeid={{$employeeid}}&email={{$email}}&firstname={{$firstname}}&lastname={{$lastname}}&phoneno={{$phoneno}}&perpage={{$perpage}}">Previous</a></li>
                     @endif
                     @for($i = 1; $i <= $number_of_page; $i++)
                     @if($page == $i)
-                    <li class="page-item active"><a class="page-link" href="/employee/{{ $i }}">{{$i}}</a></li>
+                    <li class="page-item active"><a class="page-link" href="/searchemployee/{{ $i }}?employeeid={{$employeeid}}&email={{$email}}&firstname={{$firstname}}&lastname={{$lastname}}&phoneno={{$phoneno}}&perpage={{$perpage}}">{{$i}}</a></li>
                     @continue
                     @endif
-                    <li class="page-item"><a class="page-link" href="/employee/{{ $i }}">{{$i}}</a></li>
+                    <li class="page-item"><a class="page-link" href="/searchemployee/{{ $i }}?employeeid={{$employeeid}}&email={{$email}}&firstname={{$firstname}}&lastname={{$lastname}}&phoneno={{$phoneno}}&perpage={{$perpage}}">{{$i}}</a></li>
                     @endfor
                     @if($page < $number_of_page)
-                    <li class="page-item"><a class="page-link" href="/employee/{{ $page+1 }}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="/searchemployee/{{ $page+1 }}?employeeid={{$employeeid}}&email={{$email}}&firstname={{$firstname}}&lastname={{$lastname}}&phoneno={{$phoneno}}&perpage={{$perpage}}">Next</a></li>
                     @endif
                 </ul>
             </div>
@@ -90,30 +90,30 @@
             <form action="/searchemployee" method="GET">
                 <div class="form-group">
                   <label>Employee ID:</label>
-                  <input type="text" class="form-control" placeholder="Enter Employee ID" name="employeeid">
+                  <input type="text" class="form-control" name="employeeid" value="{{ $employeeid }}">
                 </div>
                 <div class="form-group">
                   <label>Email ID:</label>
-                  <input type="text" class="form-control" placeholder="Enter Email" name="email">
+                  <input type="text" class="form-control" name="email" value="{{ $email }}">
                 </div>
                 <div class="form-group">
                   <label>First Name:</label>
-                  <input type="text" class="form-control" placeholder="Enter First Name" name="firstname">
+                  <input type="text" class="form-control" name="firstname" value="{{ $firstname }}">
                 </div>
                 <div class="form-group">
                   <label>Last Name:</label>
-                  <input type="text" class="form-control" placeholder="Enter Last Name" name="lastname">
+                  <input type="text" class="form-control" name="lastname" value="{{ $lastname }}">
                 </div>
                 <div class="form-group">
                   <label>Phone No:</label>
-                  <input type="text" class="form-control" placeholder="Enter Phone Number" name="phoneno">
+                  <input type="text" class="form-control" name="phoneno" value="{{ $phoneno }}">
                 </div>
                 <div class="form-group">
                   <label>Result Per Page:</label>
-                  <select class="form-control" name="perpage">
+                  <select class="form-control" name="perpage" value={{ $perpage }}>
                       <option value="25">25</option>
-                      <option value="25">50</option>
-                      <option value="25">100</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
                   </select>
                 </div>
         </div>

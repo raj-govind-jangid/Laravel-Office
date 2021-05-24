@@ -21,7 +21,7 @@
                         <label>Post Name:</label>
                         <input type="text" class="form-control" name="post_name" placeholder="Enter Post Name" required>
                     </div>
-                    <button class="btn btn-info">Create Post</button>
+                    <button class="btn">Create Post</button>
                 </form>
                 </div>
           </div>

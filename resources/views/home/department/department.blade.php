@@ -14,10 +14,10 @@
       <div class="col-lg-12 mx-auto">
         <div class="card rounded shadow border-0">
           <div class="card-body p-4 bg-white rounded">
-            <a href="/createdepartment" class="btn btn-primary mb-4 mr-auto">Create Department</a>
+            <a href="/createdepartment" class="btn mb-4 mr-auto">Create Department</a>
             <div class="table-responsive">
-              <table id="example" style="width:100%" class="table table-striped table-bordered text-center">
-                <thead>
+              <table id="example" style="width:100%" class="table table-striped text-center">
+                <thead style="background-color: rgb(106, 90, 205); color: #fff;">
                   <tr>
                     <th scope="col">Department Name</th>
                     <th scope="col">Action</th>
@@ -35,6 +35,23 @@
                 @endforeach
                 </tbody>
               </table>
+            </div>
+            <div class="table-responsive">
+                <ul class="pagination">
+                    @if($page >= 2)
+                    <li class="page-item"><a class="page-link" href="/department/{{ $page-1 }}">Previous</a></li>
+                    @endif
+                    @for($i = 1; $i <= $number_of_page; $i++)
+                    @if($page == $i)
+                    <li class="page-item active"><a class="page-link" href="/department/{{ $i }}">{{$i}}</a></li>
+                    @continue
+                    @endif
+                    <li class="page-item"><a class="page-link" href="/department/{{ $i }}">{{$i}}</a></li>
+                    @endfor
+                    @if($page < $number_of_page)
+                    <li class="page-item"><a class="page-link" href="/department/{{ $page+1 }}">Next</a></li>
+                    @endif
+                </ul>
             </div>
           </div>
         </div>

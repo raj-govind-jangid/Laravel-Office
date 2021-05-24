@@ -85,7 +85,7 @@
                         </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-info">Create Employee</button>
+                    <button type="submit" class="btn">Create Employee</button>
                   </form>
 
             </div>

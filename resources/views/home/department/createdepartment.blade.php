@@ -21,7 +21,7 @@
                         <label>Department Name:</label>
                         <input type="text" class="form-control" name="department_name" placeholder="Enter Department Name" required>
                     </div>
-                    <button class="btn btn-info">Create Department</button>
+                    <button class="btn">Create Department</button>
                 </form>
                 </div>
           </div>

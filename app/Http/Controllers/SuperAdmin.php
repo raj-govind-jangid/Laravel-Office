@@ -9,10 +9,68 @@ use Validator;
 
 class SuperAdmin extends Controller
 {
-    public function admin(){
-        $user = user::all();
-        $totaluser = $user->count();
-        return view('superadmin.admin',['user'=>$user,'totaluser'=>$totaluser]);
+    public function admin($page = null){
+        $user = user::query();
+        $totaldata = $user->get()->count();
+        $number_of_result = $user->count();
+        if ($page === null){
+            $page = 1;
+        }
+        else{
+
+        }
+        $results_per_page = 10;
+        $page_first_result = ($page-1) * $results_per_page;
+        $number_of_page = ceil ($number_of_result / $results_per_page);
+        $data = $user->offset($page_first_result)->limit($results_per_page)->get();
+        return view('superadmin.admin',['user'=>$data,'totaluser'=>$totaldata,'number_of_page'=>$number_of_page,'page'=>$page]);
+    }
+
+    public function searchuser(Request $request, $page = null){
+        $email = $request->email;
+        $firstname = $request->firstname;
+        $lastname = $request->lastname;
+        $phoneno = $request->phoneno;
+        $type = $request->type;
+        $user = user::query();
+
+        if(!$email == null){
+            $user->where('user_email','Like','%'.$email.'%');
+        }
+        if(!$firstname == null){
+            $user->where('user_first_name','Like','%'.$firstname.'%');
+        }
+        if(!$lastname == null){
+            $user->where('user_last_name','Like','%'.$lastname.'%');
+        }
+        if(!$phoneno == null){
+            $user->where('user_phoneno','Like','%'.$phoneno.'%');
+        }
+        if($type == "Admin" || $type == "Superadmin"){
+            $user->where(['user_type'=>$type]);
+        }
+        $totaldata = $user->get()->count();
+        $number_of_result = $user->count();
+        if ($page === null){
+            $page = 1;
+        }
+        else{
+
+        }
+        $results_per_page = 10;
+        $page_first_result = ($page-1) * $results_per_page;
+        $number_of_page = ceil ($number_of_result / $results_per_page);
+        $searchuser = $user->offset($page_first_result)->limit($results_per_page)->get();
+        return view('superadmin.searchuser',['user'=>$searchuser,
+            'totaluser'=>$totaldata,
+            'number_of_page'=>$number_of_page,
+            'page'=>$page,
+            'email'=>$email,
+            'firstname'=>$firstname,
+            'lastname'=>$lastname,
+            'phoneno'=>$phoneno,
+            'type'=>$type
+        ]);
     }
 
     public function createuser(){

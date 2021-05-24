@@ -22,7 +22,7 @@
                         <label>Post Name:</label>
                         <input type="text" class="form-control" name="post_name" value="{{ $item['post_name'] }}" required>
                     </div>
-                    <button class="btn btn-info">Edit Post</button>
+                    <button class="btn">Edit Post</button>
                 </form>
                 </div>
           </div>

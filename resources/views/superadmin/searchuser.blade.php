@@ -52,17 +52,17 @@ use App\Http\Controllers\UserController;
             <div class="table-responsive">
                 <ul class="pagination">
                     @if($page >= 2)
-                    <li class="page-item"><a class="page-link" href="/admin/{{ $page-1 }}">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="/searchuser/{{ $page-1 }}?email={{$email}}&firstname={{$firstname}}&lastname={{$lastname}}&phoneno={{$phoneno}}&type={{$type}}">Previous</a></li>
                     @endif
                     @for($i = 1; $i <= $number_of_page; $i++)
                     @if($page == $i)
-                    <li class="page-item active"><a class="page-link" href="/admin/{{ $i }}">{{$i}}</a></li>
+                    <li class="page-item active"><a class="page-link" href="/searchuser/{{ $page }}?email={{$email}}&firstname={{$firstname}}&lastname={{$lastname}}&phoneno={{$phoneno}}&type={{$type}}">{{$i}}</a></li>
                     @continue
                     @endif
-                    <li class="page-item"><a class="page-link" href="/admin/{{ $i }}">{{$i}}</a></li>
+                    <li class="page-item"><a class="page-link" href="/searchuser/{{ $i }}?email={{$email}}&firstname={{$firstname}}&lastname={{$lastname}}&phoneno={{$phoneno}}&type={{$type}}">{{$i}}</a></li>
                     @endfor
                     @if($page < $number_of_page)
-                    <li class="page-item"><a class="page-link" href="/admin/{{ $page+1 }}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="/searchuser/{{ $page+1 }}?email={{$email}}&firstname={{$firstname}}&lastname={{$lastname}}&phoneno={{$phoneno}}&type={{$type}}">Next</a></li>
                     @endif
                 </ul>
             </div>
@@ -88,26 +88,36 @@ use App\Http\Controllers\UserController;
             <form action="/searchuser" method="GET">
                 <div class="form-group">
                   <label>Email ID:</label>
-                  <input type="text" class="form-control" placeholder="Enter Email" name="email">
+                  <input type="text" class="form-control" placeholder="Enter Email" name="email" value="{{ $email }}">
                 </div>
                 <div class="form-group">
                   <label>First Name:</label>
-                  <input type="text" class="form-control" placeholder="Enter First Name" name="firstname">
+                  <input type="text" class="form-control" placeholder="Enter First Name" name="firstname" value="{{ $firstname }}">
                 </div>
                 <div class="form-group">
                   <label>Last Name:</label>
-                  <input type="text" class="form-control" placeholder="Enter Last Name" name="lastname">
+                  <input type="text" class="form-control" placeholder="Enter Last Name" name="lastname" value="{{ $lastname }}">
                 </div>
                 <div class="form-group">
                   <label>Phone No:</label>
-                  <input type="text" class="form-control" placeholder="Enter Phone" name="phoneno">
+                  <input type="text" class="form-control" placeholder="Enter Phone" name="phoneno" value="{{ $phoneno }}">
                 </div>
                 <div class="form-group">
                   <label>User Type:</label>
-                  <select class="form-control" name="type">
+                  <select class="form-control" name="type" value="{{ $type }}">
+                    @if($type == "Admin")
+                    <option value="All">All</option>
+                    <option value="Admin" selected>Admin</option>
+                    <option value="Superadmin">Superadmin</option>
+                    @elseif($type == "Superadmin")
                     <option value="All">All</option>
                     <option value="Admin">Admin</option>
+                    <option value="Superadmin" selected>Superadmin</option>
+                    @else
+                    <option value="All" selected>All</option>
+                    <option value="Admin">Admin</option>
                     <option value="Superadmin">Superadmin</option>
+                    @endif
                   </select>
                 </div>
         </div>

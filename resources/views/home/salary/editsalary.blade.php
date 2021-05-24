@@ -51,7 +51,7 @@
         </div>
     </div>
     </div>
-    <button class="btn btn-info">Update Pay</button>
+    <button class="btn">Update Pay</button>
 </form>
 
 

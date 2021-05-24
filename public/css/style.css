@@ -486,5 +486,14 @@ body {
     display: block;
 }
 
+.btn{
+    background-color: rgb(106, 90, 205);
+    color: #fff;
+}
+.btn:hover {
+    background-color: #fff;
+    color: rgb(106, 90, 205);
+    border-color: rgb(106, 90, 205);
+}
 
 /* */

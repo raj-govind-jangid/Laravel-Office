@@ -45,8 +45,8 @@
                             @endif
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-info">Update User</button>
-                    <a href="/changepassword/{{$user['user_id']}}" class="btn btn-success">Change Password</a>
+                    <button type="submit" class="btn">Update User</button>
+                    <a href="/changepassword/{{$user['user_id']}}" class="btn">Change Password</a>
                   </form>
                 </div>
           </div>

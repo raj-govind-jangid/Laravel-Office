@@ -25,6 +25,8 @@ Route::post('/login',[UserController::class,'logincheck']);
 
 Route::get('/logout',[UserController::class,'logout']);
 
+Route::post('/onlineuser',[UserController::class,'onlineuser']);
+
 // Home Url
 
 Route::group(['middleware' => 'UserCheck'], function () {
@@ -33,15 +35,15 @@ Route::get('/',[HomeController::class,'home']);
 
 // Employee Url
 
-Route::get('/employee',[HomeController::class,'employee']);
+Route::get('/employee/{page?}',[HomeController::class,'employee']);
+
+Route::get('/searchemployee/{page?}',[HomeController::class,'searchemployee']);
 
 Route::get('/createemployee',[HomeController::class,'createemployee']);
 
 Route::post('/saveemployee',[HomeController::class,'saveemployee']);
 
-Route::get('/pendingemployee',[HomeController::class,'pendingemployee']);
-
-Route::get('/viewemployee/{id}',[HomeController::class,'viewemployee']);
+Route::get('/pendingemployee/{page?}',[HomeController::class,'pendingemployee']);
 
 Route::get('/pendingaccept/{id}',[HomeController::class,'pendingaccept']);
 
@@ -55,7 +57,7 @@ Route::get('/deleteemployee/{id}',[HomeController::class,'deleteemployee']);
 
 // Post Url
 
-Route::get('/post',[HomeController::class,'post']);
+Route::get('/post/{page?}',[HomeController::class,'post']);
 
 Route::get('/createpost',[HomeController::class,'createpost']);
 
@@ -69,7 +71,7 @@ Route::get('/deletepost/{id}',[HomeController::class,'deletepost']);
 
 // Department Url
 
-Route::get('/department',[HomeController::class,'department']);
+Route::get('/department/{page?}',[HomeController::class,'department']);
 
 Route::get('/createdepartment',[HomeController::class,'createdepartment']);
 
@@ -83,7 +85,7 @@ Route::get('/deletedepartment/{id}',[HomeController::class,'deletedepartment']);
 
 // Pay Url
 
-Route::get('/pay',[SalaryPayController::class,'pay']);
+Route::get('/pay/{page?}',[SalaryPayController::class,'pay']);
 
 Route::get('/createpay',[SalaryPayController::class,'createpay']);
 
@@ -97,17 +99,19 @@ Route::get('/deletepay/{id}',[SalaryPayController::class,'deletepay']);
 
 // Salary Url
 
-Route::get('/salary',[SalaryPayController::class,'salary']);
+Route::get('/salary/{page?}',[SalaryPayController::class,'salary']);
 
-Route::get('/pendingsalary',[SalaryPayController::class,'pendingsalary']);
+Route::get('/pendingsalary/{page?}',[SalaryPayController::class,'pendingsalary']);
+
+Route::post('/createbulksalary',[SalaryPayController::class,'createbulksalary']);
+
+Route::get('/searchsalary/{page?}',[SalaryPayController::class,'searchsalary']);
 
 Route::get('/createsalary/{id}',[SalaryPayController::class,'createsalary']);
 
 Route::post('/savesalary',[SalaryPayController::class,'savesalary']);
 
-Route::get('/viewsalary/{id}',[SalaryPayController::class,'viewsalary']);
-
-Route::get('/downloadsalarypdf/{id}',[SalaryPayController::class,'downloadsalarypdf']);
+Route::get('/salarydetail/{id}',[SalaryPayController::class,'salarydetail']);
 
 Route::get('/editsalary/{id}',[SalaryPayController::class,'editsalary']);
 
@@ -123,13 +127,13 @@ Route::group(['middleware' => 'SuperAdminCheck'], function () {
 
 //Admin Url
 
-Route::get('/admin',[SuperAdmin::class,'admin']);
+Route::get('/admin/{page?}',[SuperAdmin::class,'admin']);
+
+Route::get('/searchuser/{page?}',[SuperAdmin::class,'searchuser']);
 
 Route::get('/createuser',[SuperAdmin::class,'createuser']);
 
 Route::post('/createuser',[SuperAdmin::class,'saveuser']);
-
-Route::get('/viewuser/{id}',[SuperAdmin::class,'viewuser']);
 
 Route::get('/edituser/{id}',[SuperAdmin::class,'edituser']);
 

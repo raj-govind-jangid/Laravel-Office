@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 </div>
-                <button class="btn btn-info">Update Paymatrix</button>
+                <button class="btn">Update Paymatrix</button>
             </form>
           </div>
         </div>

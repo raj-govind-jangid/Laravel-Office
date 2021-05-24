@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     </div>
-                    <button class="btn btn-info">Create Pay</button>
+                    <button class="btn">Create Pay</button>
                 </form>
 
             </div>

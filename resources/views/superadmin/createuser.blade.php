@@ -43,7 +43,7 @@
                             <option value="Superadmin">Superadmin</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-info">Create User</button>
+                    <button type="submit" class="btn">Create User</button>
                   </form>
                 </div>
           </div>

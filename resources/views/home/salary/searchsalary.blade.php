@@ -6,19 +6,17 @@
 
 @section('content')
 
+
 <div class="container py-4">
     <header class="text-center text-white">
       <h1 class="display-4">Salary Lists</h1>
       <h4 class="lead mb-0" style="font-size: 30px;">Total Result : {{ $totalsalary }}</h4>
-      <br>
-      <h4 class="lead mb-0" style="font-size: 30px;">All Created Salary of <?php echo date("F", mktime(0, 0, 0, date('m'), 10)); ?> <?php echo date('Y'); ?> </h4>
     </header>
     <div class="row py-5">
       <div class="col-lg-12 mx-auto">
         <div class="card rounded shadow border-0">
           <div class="card-body p-4 bg-white rounded">
             <a href class="btn mb-4 mr-auto" data-toggle="modal" data-target="#searchfilter">Search Filter</a>
-            <a href class="btn mb-4 mr-auto" data-toggle="modal" data-target="#createbulksalary">Create Bulk Salary</a>
             <div class="table-responsive">
               <table id="example" style="width:100%" class="table table-striped text-center">
                 <thead style="background-color: rgb(106, 90, 205); color: #fff;">
@@ -55,7 +53,7 @@
                     @endforeach
                     @else
                     <tr>
-                        <td colspan="9">No Salary Found</td>
+                        <td colspan="9">No Result Found</td>
                      </tr>
                     @endif
                 </tbody>
@@ -64,17 +62,17 @@
             <div class="table-responsive">
                 <ul class="pagination">
                     @if($page >= 2)
-                    <li class="page-item"><a class="page-link" href="/salary/{{ $page-1 }}">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="/searchsalary/{{ $page-1 }}?employeeid={{$employeeid}}&salaryid={{$salaryid}}&departmentid={{$departmentid}}&postid={{$postid}}&paymatrixid={{$paymatrixid}}&monthid={{$monthid}}&yearid={{$yearid}}&perpage={{$perpage}}">Previous</a></li>
                     @endif
                     @for($i = 1; $i <= $number_of_page; $i++)
                     @if($page == $i)
-                    <li class="page-item active"><a class="page-link" href="/salary/{{ $i }}">{{$i}}</a></li>
+                    <li class="page-item active"><a class="page-link" href="/searchsalary/{{ $page }}?employeeid={{$employeeid}}&salaryid={{$salaryid}}&departmentid={{$departmentid}}&postid={{$postid}}&paymatrixid={{$paymatrixid}}&monthid={{$monthid}}&yearid={{$yearid}}&perpage={{$perpage}}">{{ $i }}</a></li>
                     @continue
                     @endif
-                    <li class="page-item"><a class="page-link" href="/salary/{{ $i }}">{{$i}}</a></li>
+                    <li class="page-item"><a class="page-link" href="/searchsalary/{{ $i }}?employeeid={{$employeeid}}&salaryid={{$salaryid}}&departmentid={{$departmentid}}&postid={{$postid}}&paymatrixid={{$paymatrixid}}&monthid={{$monthid}}&yearid={{$yearid}}&perpage={{$perpage}}">{{ $i }}</a></li>
                     @endfor
                     @if($page < $number_of_page)
-                    <li class="page-item"><a class="page-link" href="/salary/{{ $page+1 }}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="/searchsalary/{{ $page+1 }}?employeeid={{$employeeid}}&salaryid={{$salaryid}}&departmentid={{$departmentid}}&postid={{$postid}}&paymatrixid={{$paymatrixid}}&monthid={{$monthid}}&yearid={{$yearid}}&perpage={{$perpage}}">Next</a></li>
                     @endif
                 </ul>
             </div>
@@ -102,15 +100,15 @@
                     <div class="col-md-6">
                     <div class="form-group">
                         <label>Employee ID:</label>
-                        <input type="number" class="form-control" placeholder="Enter Employee ID" name="employeeid">
+                        <input type="number" class="form-control" name="employeeid" value="{{ $employeeid }}">
                     </div>
                     <div class="form-group">
                         <label>Salary ID:</label>
-                        <input type="number" class="form-control" placeholder="Enter Salary ID" name="salaryid">
+                        <input type="number" class="form-control" name="salaryid" value="{{ $salaryid }}">
                     </div>
                     <div class="form-group">
                         <label>Department:</label>
-                        <select class="form-control" name="departmentid">
+                        <select class="form-control" name="departmentid" value="{{ $departmentid }}">
                             <option value="0" selected>All</option>
                             @foreach($department as $d)
                             <option value="{{ $d['department_id'] }}">{{ $d['department_name'] }}</option>
@@ -119,7 +117,7 @@
                     </div>
                     <div class="form-group">
                         <label>Post:</label>
-                        <select class="form-control" name="postid">
+                        <select class="form-control" name="postid" value="{{ $postid }}">
                             <option value="0" selected>All</option>
                         @foreach ($post as $p)
                             <option value="{{ $p['post_id'] }}">{{ $p['post_name'] }}</option>
@@ -130,7 +128,7 @@
                     <div class="col-md-6">
                     <div class="form-group">
                         <label>Level:</label>
-                        <select class="form-control" name="paymatrixid">
+                        <select class="form-control" name="paymatrixid" value="{{ $paymatrixid }}">
                             <option value="0" selected>All</option>
                         @foreach ($paymatrix as $p)
                             <option value="{{ $p['paymatrix_id'] }}">{{ $p['paymatrix_level_name'] }}</option>
@@ -148,7 +146,7 @@
                     </div>
                     <div class="form-group">
                         <label>Year:</label>
-                        <select class="form-control" name='yearid'>
+                        <select class="form-control" name='yearid' value={{ $yearid }}>
                             <option value="0">All</option>
                             @for ($i = 2014; $i < 2030; $i++)
                             <option value="{{ $i }}">{{ $i }}</option>
@@ -157,7 +155,7 @@
                     </div>
                     <div class="form-group">
                         <label>Result Per Page:</label>
-                        <select class="form-control" name="perpage">
+                        <select class="form-control" name="perpage" value={{ $perpage }}>
                             <option value="25">25</option>
                             <option value="50">50</option>
                             <option value="100">100</option>
@@ -177,84 +175,5 @@
       </div>
     </div>
   </div>
-
-    <!-- The Modal -->
-    <div class="modal" id="createbulksalary">
-        <div class="modal-dialog">
-          <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-              <h4 class="modal-title">Create Bulk Salary</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form action="/createbulksalary" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <label>Department:</label>
-                        <select class="form-control" name="departmentid">
-                            <option value="0" selected>All</option>
-                            @foreach ($department as $department)
-                            <option value="{{ $department['department_id'] }}">{{ $department['department_name'] }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Post:</label>
-                        <select class="form-control" name="postid">
-                            <option value="0" selected>All</option>
-                        @foreach ($post as $post)
-                            <option value="{{ $post['post_id'] }}">{{ $post['post_name'] }}</option>
-                        @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Level:</label>
-                        <select class="form-control" name="paymatrixid">
-                            <option value="0" selected>All</option>
-                        @foreach ($paymatrix as $paymatrix)
-                            <option value="{{ $paymatrix['paymatrix_id'] }}">{{ $paymatrix['paymatrix_level_name'] }}</option>
-                        @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Month:</label>
-                        <select class="form-control" name='monthid'>
-                            <option value="<?php echo date('m')*1; ?>" selected><?php echo date('m')*1; ?></option>
-                            @for ($i = 1; $i < 13; $i++)
-                            @if( date('m') == $i)
-                            @continue
-                            @endif
-                            <option value="{{ $i }}">{{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Year:</label>
-                        <select class="form-control" name='yearid'>
-                            <option value="<?php echo date('Y'); ?>" selected><?php echo date('Y'); ?></option>
-                            @for ($i = 2014; $i < 2030; $i++)
-                            @if( date('Y') == $i)
-                            @continue
-                            @endif
-                            <option value="{{ $i }}">{{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-              <button type="submit" class="btn">Create</button>
-              </form>
-              <button type="button" class="btn" data-dismiss="modal">Close</button>
-            </div>
-
-          </div>
-        </div>
-      </div>
 
 @endsection

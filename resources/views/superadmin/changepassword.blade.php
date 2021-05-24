@@ -26,7 +26,7 @@
                         <label>Confirm Password:</label>
                         <input type="password" class="form-control" name="confirmpassword" placeholder="Enter Confirm Password" required>
                     </div>
-                    <button type="submit" class="btn btn-info">Change Password</button>
+                    <button type="submit" class="btn">Change Password</button>
                 </form>
                 </div>
           </div>

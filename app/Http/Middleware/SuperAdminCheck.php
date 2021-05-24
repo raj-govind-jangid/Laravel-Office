@@ -19,11 +19,19 @@ class SuperAdminCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        if(session()->get('user')['user_type'] == "Superadmin"){
-            return $next($request);
+        if(session()->has('user')){
+
+            if(session()->get('user')['user_type'] == "Superadmin"){
+                return $next($request);
+            }
+
+            else{
+                return Redirect('/');
+            }
         }
+
         else{
-            return Redirect('/');
+            return Redirect('/login');
         }
     }
 }

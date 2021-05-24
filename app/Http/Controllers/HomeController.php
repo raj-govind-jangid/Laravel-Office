@@ -12,33 +12,112 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function home(){
-        $employeecount =  employeelist::all()->where('employee_status','Working')->count();
-        $pendingcount = employeelist::all()->where('employee_status','Pending')->count();
-        $postcount = post::all()->count();
-        $departmentcount = department::all()->count();
-        return view('home.home',['employeecount'=>$employeecount,'pendingcount'=>$pendingcount,'postcount'=>$postcount,'departmentcount'=>$departmentcount]);
+        $workingemployee = employeelist::join('posts', 'posts.post_id', '=', 'employeelists.employee_post_id')
+            ->join('departments', 'departments.department_id', '=', 'employeelists.employee_department_id')
+            ->orderby('employeelist_id','DESC')
+            ->where(['employee_status'=>'Working'])->limit(5)->get();
+
+        $pendingemployee = employeelist::join('posts', 'posts.post_id', '=', 'employeelists.employee_post_id')
+            ->join('departments', 'departments.department_id', '=', 'employeelists.employee_department_id')
+            ->orderby('employeelist_id','DESC')
+            ->where(['employee_status'=>'Pending'])->limit(5)->get();
+        return view('home.home',['workingemployee'=>$workingemployee,'pendingemployee'=>$pendingemployee]);
     }
 
     // Employee Function
 
-    public function employee(){
+    public function employee($page = null){
         $employee = employeelist::join('posts', 'posts.post_id', '=', 'employeelists.employee_post_id')
             ->join('departments', 'departments.department_id', '=', 'employeelists.employee_department_id')
             ->join('paymatrixs', 'paymatrixs.paymatrix_id', '=', 'employeelists.employee_paymatrix_id')
-            ->where('employee_status','Working')
-            ->get();
-        $totalemployee = $employee->count();
-        return view('home.employee.employee',['employee'=>$employee,'totalemployee'=>$totalemployee]);
+            ->orderBy('employeelist_id', 'DESC')
+            ->where('employee_status','Working');
+        $totaldata = $employee->get()->count();
+        $number_of_result = $employee->count();
+        if ($page === null){
+            $page = 1;
+        }
+        else{
+
+        }
+        $results_per_page = 50;
+        $page_first_result = ($page-1) * $results_per_page;
+        $number_of_page = ceil ($number_of_result / $results_per_page);
+        $data = $employee->offset($page_first_result)->limit($results_per_page)->get();
+        return view('home.employee.employee',['employee'=>$data,'totalemployee'=>$totaldata,'number_of_page'=>$number_of_page,'page'=>$page]);
     }
 
-    public function pendingemployee(){
+    public function pendingemployee($page = null){
         $pendingemployee = employeelist::join('posts', 'posts.post_id', '=', 'employeelists.employee_post_id')
             ->join('departments', 'departments.department_id', '=', 'employeelists.employee_department_id')
             ->join('paymatrixs', 'paymatrixs.paymatrix_id', '=', 'employeelists.employee_paymatrix_id')
-            ->where('employee_status','Pending')
-            ->get();
-        $totalpendingemployee = $pendingemployee->count();
-        return view('home.employee.pendingemployee',['pendingemployee'=>$pendingemployee,'totalpendingemployee'=>$totalpendingemployee]);
+            ->orderBy('employeelist_id', 'DESC')
+            ->where('employee_status','Pending');
+        $totaldata = $pendingemployee->get()->count();
+        $number_of_result = $pendingemployee->count();
+        if ($page === null){
+            $page = 1;
+        }
+        else{
+
+        }
+        $results_per_page = 10;
+        $page_first_result = ($page-1) * $results_per_page;
+        $number_of_page = ceil ($number_of_result / $results_per_page);
+        $data = $pendingemployee->offset($page_first_result)->limit($results_per_page)->get();
+        return view('home.employee.pendingemployee',['pendingemployee'=>$data,'totalpendingemployee'=>$totaldata,'number_of_page'=>$number_of_page,'page'=>$page]);
+    }
+
+    public function searchemployee(Request $request, $page = null){
+        $employeeid = $request->employeeid;
+        $email = $request->email;
+        $firstname = $request->firstname;
+        $lastname = $request->lastname;
+        $phoneno = $request->phoneno;
+        $perpage = $request->perpage;
+        $employee = employeelist::join('posts', 'posts.post_id', '=', 'employeelists.employee_post_id')
+            ->join('departments', 'departments.department_id', '=', 'employeelists.employee_department_id')
+            ->join('paymatrixs', 'paymatrixs.paymatrix_id', '=', 'employeelists.employee_paymatrix_id');
+
+        if(!$employeeid == null){
+            $employee->where('employeelist_id','Like','%'.$employeeid.'%');
+        }
+        if(!$email == null){
+            $employee->where('employee_email','Like','%'.$email.'%');
+        }
+        if(!$firstname == null){
+            $employee->where('employee_first_name','Like','%'.$firstname.'%');
+        }
+        if(!$lastname == null){
+            $employee->where('employee_last_name','Like','%'.$lastname.'%');
+        }
+        if(!$phoneno == null){
+            $employee->where('employee_phoneno','Like','%'.$phoneno.'%');
+        }
+
+        $totaldata = $employee->get()->count();
+        $number_of_result = $employee->count();
+        if ($page === null){
+            $page = 1;
+        }
+        else{
+
+        }
+        $results_per_page = $perpage;
+        $page_first_result = ($page-1) * $results_per_page;
+        $number_of_page = ceil ($number_of_result / $results_per_page);
+        $data = $employee->offset($page_first_result)->limit($results_per_page)->get();
+        return view('home.employee.searchemployee',['employee'=>$data,
+            'totalemployee'=>$totaldata,
+            'number_of_page'=>$number_of_page,
+            'page'=>$page,
+            'perpage'=>$perpage,
+            'employeeid'=>$employeeid,
+            'email'=>$email,
+            'firstname'=>$firstname,
+            'lastname'=>$lastname,
+            'phoneno'=>$phoneno
+        ]);
     }
 
     public function pendingaccept($id){
@@ -52,15 +131,6 @@ class HomeController extends Controller
         employeelist::where(['employeelist_id'=> $id])->delete();
         session()->put('success', 'Removed Successfully');
         return redirect('/pendingemployee');
-    }
-
-    public function viewemployee($id){
-        $employee = employeelist::join('posts', 'posts.post_id', '=', 'employeelists.employee_post_id')
-            ->join('departments', 'departments.department_id', '=', 'employeelists.employee_department_id')
-            ->join('paymatrixs', 'paymatrixs.paymatrix_id', '=', 'employeelists.employee_paymatrix_id')
-            ->where('employeelist_id',$id)
-            ->first();
-        return view('home.employee.viewemployee',['employee'=>$employee]);
     }
 
     public function createemployee(){
@@ -126,10 +196,21 @@ class HomeController extends Controller
 
     // Post Function
 
-    public function post(){
-        $post = post::all();
-        $totalpost = $post->count();
-        return view('home.post.post',['post'=>$post,'totalpost'=>$totalpost]);
+    public function post($page = null){
+        $post = post::query();
+        $totaldata = $post->get()->count();
+        $number_of_result = $post->count();
+        if ($page === null){
+            $page = 1;
+        }
+        else{
+
+        }
+        $results_per_page = 5;
+        $page_first_result = ($page-1) * $results_per_page;
+        $number_of_page = ceil ($number_of_result / $results_per_page);
+        $data = $post->offset($page_first_result)->limit($results_per_page)->get();
+        return view('home.post.post',['post'=>$data,'totalpost'=>$totaldata,'number_of_page'=>$number_of_page,'page'=>$page]);
     }
 
     public function createpost(){
@@ -164,10 +245,21 @@ class HomeController extends Controller
 
     // Department Function
 
-    public function department(){
-        $department = department::all();
-        $totaldepartment = $department->count();
-        return view('home.department.department',['department'=>$department,'totaldepartment'=>$totaldepartment]);
+    public function department($page = null){
+        $department = department::query();
+        $totaldata = $department->get()->count();
+        $number_of_result = $department->count();
+        if ($page === null){
+            $page = 1;
+        }
+        else{
+
+        }
+        $results_per_page = 5;
+        $page_first_result = ($page-1) * $results_per_page;
+        $number_of_page = ceil ($number_of_result / $results_per_page);
+        $data = $department->offset($page_first_result)->limit($results_per_page)->get();
+        return view('home.department.department',['department'=>$data,'totaldepartment'=>$totaldata,'number_of_page'=>$number_of_page,'page'=>$page]);
     }
 
     public function createdepartment(){
